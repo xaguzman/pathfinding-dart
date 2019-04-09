@@ -17,7 +17,7 @@ The library works on a bunch of interfaces:
 * PathFinder: the implementation for the pathfinding algorithm, current options are:
 	* AStarFinder
 	* AStarGridFinder
-	* JumpPointFinder
+	* JumpPointFinder  (Currently broken)
 	* ThetaStarFinder
 	* ThetaStarGridFinder
 
