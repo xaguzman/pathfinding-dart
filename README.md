@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/xaguzman/pathfinding.svg?branch=master)](https://travis-ci.org/xaguzman/pathfinding)
+p[![Build Status](https://travis-ci.org/xaguzman/pathfinding.svg?branch=master)](https://travis-ci.org/xaguzman/pathfinding)
 
-pathfinding-dart - APACHE LICENSE 2.0
+pathfinding-dart - BSD LICENSE
 ==========
 
 A  pathfinding library written in dart, meant to be used for games.
