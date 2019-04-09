@@ -10,6 +10,6 @@ void main() async {
   var canvas3 = querySelector("#canvas3");
   new PathFinderShowcase(canvas1, new AStarGridFinder()).run();
   new PathFinderShowcase(canvas2, new ThetaStarGridFinder()).run();
-  new PathFinderShowcase(canvas3, new JumpPointFinder()).run();
+  // new PathFinderShowcase(canvas3, new JumpPointFinder()).run();
 }
 
