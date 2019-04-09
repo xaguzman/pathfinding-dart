@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95c5102d-0f74-4741-885f-46860ed58476" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lib/pathfinding_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pathfinding_grid.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/grid/grid_finders.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/grid/grid_finders.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/grid/grid_graph.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/grid/grid_graph.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,7 +67,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554750246226" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554755007110" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="last_opened_file_path" value="C:/tools/dart-sdk" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
@@ -92,10 +95,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1910" height="920" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25305623" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22378379" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -103,7 +106,7 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Dart Analysis" weight="0.32922733" />
-      <window_info active="true" anchor="bottom" id="Dart Dev Server" visible="true" weight="0.32922733" />
+      <window_info active="true" anchor="bottom" id="Dart Dev Server" visible="true" weight="0.37357053" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />

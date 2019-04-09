@@ -1,4 +1,4 @@
-p[![Build Status](https://travis-ci.org/xaguzman/pathfinding.svg?branch=master)](https://travis-ci.org/xaguzman/pathfinding)
+[![Build Status](https://travis-ci.org/xaguzman/pathfinding-dart.svg?branch=master)](https://travis-ci.org/xaguzman/pathfinding-dart)
 
 pathfinding-dart - BSD LICENSE
 ==========
