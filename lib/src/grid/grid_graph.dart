@@ -244,7 +244,7 @@ class GridFinderOptions extends PathFinderOptions {
 	/// When false, (0,0) is located at the bottom left of the grid. When true, (0,0) is located
 	/// at the top left of the grid
 	///
-	/// Default value is false
+	/// Default value is true
 	bool isYDown ;
 	
 	/// The cost of moving one cell over the x or y axis
@@ -257,7 +257,7 @@ class GridFinderOptions extends PathFinderOptions {
     this.allowDiagonal = true, 
     this.dontCrossCorners = true, 
     this.heuristic = const ManhattanDistance(), 
-    this.isYDown = false, 
+    this.isYDown = true, 
     this.orthogonalMovementCost = 1.0, 
     this.diagonalMovementCost = 1.4
     });

@@ -1,7 +1,13 @@
 part of pathfinding_grid;
 
+abstract class GridPathFinder<T extends NavigationGridNode> extends PathFinder<T>{
+  
+  List<T> findPathCoords(int startX, int startY, int endX, int endY, NavigationGrid<T> grid);
+
+}
+
 /// A helper class to which lets you find a path based on coordinates rather than nodes on [NavigationGrid]'s
-class AStarGridFinder<T extends NavigationGridNode> extends AStarFinder{
+class AStarGridFinder<T extends NavigationGridNode> extends AStarFinder<T> implements GridPathFinder<T>{
   
   AStarGridFinder() : this.withOptions(GridFinderOptions.Default);
 
@@ -13,7 +19,7 @@ class AStarGridFinder<T extends NavigationGridNode> extends AStarFinder{
 }
 
  /// A helper class to which lets you find a path based on coordinates rather than nodes on {@link NavigationGridGraph}'s.
-class ThetaStarGridFinder<T extends NavigationGridNode> extends ThetaStarFinder<T>{
+class ThetaStarGridFinder<T extends NavigationGridNode> extends ThetaStarFinder<T> implements GridPathFinder<T>{
 	
   ThetaStarGridFinder() : this.withOptions(GridFinderOptions.Default);
 
@@ -28,17 +34,18 @@ class ThetaStarGridFinder<T extends NavigationGridNode> extends ThetaStarFinder<
 /// Optimization over A*. This will always use [EuclideanDistance], regardless of the one set in the passed [options]. 
 /// This should only be used on [NavigationGrid]
 
-class JumpPointFinder<T extends NavigationGridNode> implements PathFinder<T> {
+class JumpPointFinder<T extends NavigationGridNode> extends GridPathFinder<T> {
 	BHeap<T> openList;
-	GridFinderOptions _options;
+	GridFinderOptions options;
   String _finderId;
 	int jobId = 0;
   int _maxJobId = 3000;
 
 	Heuristic euclideanDist = new EuclideanDistance();
 
-	JumpPointFinder(GridFinderOptions options) {
-		_options = options;
+  JumpPointFinder() : this.withOptions(GridFinderOptions.Default);
+
+	JumpPointFinder.withOptions(this.options) {
     _finderId =runtimeType.toString();
 		openList = new BHeap<T>((T o1, T o2) {
       if (o1 == null || o2 == null) {
@@ -98,45 +105,45 @@ class JumpPointFinder<T extends NavigationGridNode> implements PathFinder<T> {
 		return findPath(grid.getCell(startX, startY), grid.getCell(endX, endY), grid);
 	}
 
-void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end) {
-  List<T> neightbors = _getNeighbors(node, graph);
+  void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end) {
+    List<T> neightbors = _getNeighbors(node, graph);
  
-  for (T neighbor in neightbors) {
+    for (T neighbor in neightbors) {
 
-    // Try to find a node to jump to:
-    T jumpPoint = _jump(neighbor, node, graph, start, end);
+      // Try to find a node to jump to:
+      T jumpPoint = _jump(neighbor, node, graph, start, end);
 
-    if (jumpPoint == null || jumpPoint.getClosedOnJob(_finderId) == job)
-      continue;
+      if (jumpPoint == null || jumpPoint.getClosedOnJob(_finderId) == job)
+        continue;
 
-    bool isDiagonalJump = (jumpPoint.x != node.x) && (jumpPoint.y != node.y);
-    if (isDiagonalJump && !_options.allowDiagonal)
-      continue;
+      bool isDiagonalJump = (jumpPoint.x != node.x) && (jumpPoint.y != node.y);
+      if (isDiagonalJump && !options.allowDiagonal)
+        continue;
 
-    // get the distance between current node and the neighbor and
-    // calculate the next g score
-    double distance = euclideanDist.calculate(jumpPoint, node);
-    double ng = node.g + distance;
+      // get the distance between current node and the neighbor and
+      // calculate the next g score
+      double distance = euclideanDist.calculate(jumpPoint, node);
+      double ng = node.g + distance;
 
-    if (jumpPoint.getOpenedOnJob(_finderId) != job || ng < neighbor.g) {
-      double prevf = jumpPoint.f;
-      jumpPoint.g = ng;
-      jumpPoint.h = _options.heuristic.calculate(jumpPoint, end);
-      jumpPoint.f = neighbor.g + neighbor.h;
-      jumpPoint.parent = node;
+      if (jumpPoint.getOpenedOnJob(_finderId) != job || ng < neighbor.g) {
+        double prevf = jumpPoint.f;
+        jumpPoint.g = ng;
+        jumpPoint.h = options.heuristic.calculate(jumpPoint, end);
+        jumpPoint.f = neighbor.g + neighbor.h;
+        jumpPoint.parent = node;
 
-      if (jumpPoint.getOpenedOnJob(this._finderId) != job) {
-        openList.add(jumpPoint);
-        jumpPoint.setOpenedOnJob(job, _finderId);
-      } else {
-        // the neighbor can be reached with smaller cost.
-        // Since its f value has been updated, we have to update its
-        // position in the open list
-        openList.updateNode(neighbor, neighbor.f - prevf);
+        if (jumpPoint.getOpenedOnJob(this._finderId) != job) {
+          openList.add(jumpPoint);
+          jumpPoint.setOpenedOnJob(job, _finderId);
+        } else {
+          // the neighbor can be reached with smaller cost.
+          // Since its f value has been updated, we have to update its
+          // position in the open list
+          openList.updateNode(neighbor, neighbor.f - prevf);
+        }
       }
     }
   }
-}
 
 	List<T> _getNeighbors(T node, NavigationGrid<T> grid) {
 		T parent = node.parent;
@@ -149,7 +156,7 @@ void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end
 			// get the normalized direction of travel
 			int dx = clamp(-1, 1, (x - px));
 			int dy = clamp(-1, 1, (y - py));
-			dy *= _options.isYDown ? -1 : 1;
+			dy *= options.isYDown ? -1 : 1;
 
 			List<T> neighbors = new List<T>();
 			bool allowDiagonal = _allowedDiagonalMovement(node, dx, dy, grid);
@@ -216,7 +223,7 @@ void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end
 			return neighbors;
 		}
 
-		return grid.getNeighbors(node, opt:_options);
+		return grid.getNeighbors(node, opt:options);
 	}
 
 	T _jump(T node, T parent, NavigationGrid<T> grid, T start, T end) {
@@ -224,7 +231,7 @@ void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end
 		int parentX = parent.x, parentY = parent.y;
 		int dx = x - parentX;
 		int dy = y - parentY;
-		dy *= _options.isYDown ? -1 : 1;
+		dy *= options.isYDown ? -1 : 1;
 
 		if (!grid.isWalkableAt(x, y)) {
 			return null;
@@ -304,8 +311,8 @@ void _identifySuccesors(T node, NavigationGrid<T> graph, int job, T start, T end
 	}
 
 	bool _allowedDiagonalMovement(T node, int dx, int dy, NavigationGrid<T> grid) {
-		if (_options.allowDiagonal) {
-			if (!_options.dontCrossCorners)
+		if (options.allowDiagonal) {
+			if (!options.dontCrossCorners)
 				return true;
 
 			if (dx != 0 && dy != 0)
